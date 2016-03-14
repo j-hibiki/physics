@@ -26,13 +26,16 @@ function init()
     for(var i = 0; i < numsatellites; i++)
     {
         var satellite = new Object();
-        satellite.red = Math.floor(Math.random() * 256);
-        satellite.green = Math.floor(Math.random() * 256);
-        satellite.blue = Math.floor(Math.random() * 256);
+        var jupitar = new Object();
+        var satellitev0 = 2;
+
+        satellite.red = 221;
+        satellite.green = 222;
+        satellite.blue = 211;
         satellite.x = 0;
-        satellite.y = 250;
-        satellite.vx = 1;
-        satellite.vy = -1;
+        satellite.y = 475;
+        satellite.vx = satellitev0;
+        satellite.vy = -satellitev0;
         satellite.radius = 10;
         satellite.mass = satellite.radius;
         satellites[i] = satellite;
@@ -48,8 +51,14 @@ function init()
      
     function animation()
     {
-        ctx.clearRect(0, 0, 300, 300);
-         
+        ctx.clearRect(0, 0, 500, 500);
+        
+        // 木星の描画
+        ctx.arc(250,250,20,0,Math.PI*2,true);
+        ctx.fillStyle = "rgb(80,32,32)";
+        ctx.fill();
+
+
         for(var i = 0; i < numsatellites; i++)
         {
             ctx.strokeStyle ="rgb(" + satellites[i].red + "," + satellites[i].green + "," + satellites[i].blue + ")";
@@ -75,36 +84,51 @@ function init()
     {
         satellite.x += satellite.vx;
         satellite.y += satellite.vy;
-        checkWall(satellite);
+        // checkWall(satellite);
+        checkGravity(satellite);
+    }
+
+    function checkGravity(satellite)
+    {
+        var dist, distx, disty;
+        var a,    ax,    ay,arate;
+
+        arate = 5;
+        distx = satellite.x - 250;
+        disty = satellite.y - 250;
+        dist = Math.pow((distx*distx + disty*disty), 0.5) - satellite.radius;
+        
+        a = arate / dist / dist;
+        ax = a * distx / dist;
+        ay = a * disty / dist;
+
+
+        satellite.vx -= ax;
+        satellite.vy -= ay;
     }
      
-    /*
-     * 壁の衝突、跳ね返り
-     */
+    // 端に来たら反対側から出るようにする
+    // 4次元的なノリ
     function checkWall(satellite)
     {
-        if(satellite.x + satellite.radius > offsetX)
+        if(satellite.x > 500)
         {
-            satellite.x = offsetX - satellite.radius;
-            satellite.vx *= bounce;
+            satellite.x = satellite.x - 500;
         }
         else
-        if(satellite.x - satellite.radius < 0)
+        if(satellite.x < 0)
         {
-            satellite.x = satellite.radius;
-            satellite.vx *= bounce;
-        }
-         
-        if(satellite.y + satellite.radius > offsetY)
-        {
-            satellite.y = offsetY- satellite.radius;
-            satellite.vy *= bounce;
+            satellite.x = satellite.x + 500;
         }
         else
-        if(satellite.y - satellite.radius < 0)
+        if(satellite.y > 500)
         {
-            satellite.y = satellite.radius;
-            satellite.vy *= bounce;
+            satellite.y = satellite.y - 500;
+        }
+        else
+        if(satellite.y < 0)
+        {
+            satellite.y += 500;
         }
     }
 }

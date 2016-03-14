@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+body
+{
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+}
+
+#contents
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:  500px;
+  height: 500px;
+  border: 1px solid #fff;
+  overflow:hidden;
+}
+
+#canvas
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:  500px;
+  height: 500px;
+}
