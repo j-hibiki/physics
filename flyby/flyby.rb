@@ -1,4 +1,6 @@
-#swingby2.rb
+#flyby.rb
+# before writing js, i wrote it by ruby as a draft
+# maybe i will fix these codes later
 
 sat_x = 0
 sat_y = 0

@@ -9,7 +9,7 @@ function init()
     offsetY = 0,
     ctx,
     bounce = -1,
-    numsatellites = 1,
+    numsatellites = 5,
     theCanvas,
     satellites = [],
     theContents;

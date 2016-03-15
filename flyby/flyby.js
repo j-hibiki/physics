@@ -22,6 +22,9 @@ function init()
     offsetY = Number(offsetY.replace('px', ''));
      
     ctx = document.getElementById('canvas').getContext("2d");
+
+
+
      
     for(var i = 0; i < numsatellites; i++)
     {
@@ -52,12 +55,10 @@ function init()
     function animation()
     {
         ctx.clearRect(0, 0, 500, 500);
-        
         // 木星の描画
-        ctx.arc(250,250,20,0,Math.PI*2,true);
+        ctx.arc(250, 250, 20, 0, Math.PI*2, true);
         ctx.fillStyle = "rgb(80,32,32)";
         ctx.fill();
-
 
         for(var i = 0; i < numsatellites; i++)
         {
@@ -84,7 +85,7 @@ function init()
     {
         satellite.x += satellite.vx;
         satellite.y += satellite.vy;
-        // checkWall(satellite);
+        //checkWall(satellite);
         checkGravity(satellite);
     }
 
@@ -101,7 +102,6 @@ function init()
         a = arate / dist / dist;
         ax = a * distx / dist;
         ay = a * disty / dist;
-
 
         satellite.vx -= ax;
         satellite.vy -= ay;
