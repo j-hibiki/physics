@@ -8,7 +8,6 @@ function init()
     var offsetX = 0,
     offsetY = 0,
     ctx,
-    bounce = -1,
     numsatellites = 1,
     theCanvas,
     satellites = [],
@@ -23,33 +22,30 @@ function init()
      
     ctx = document.getElementById('canvas').getContext("2d");
 
+    var satellite = new Object();
+    var jupitar = new Object();
 
+    //フォームから入力できるようにしたい部分
+    var satellitex0 = 0;
+    var satellitey0 = 475;
+    var satellitevx0 = 2;
+    var satellitevy0 = -2;
+    var jupitarx = 0;
+    var jupitary = 0;
+    var satelliteRadius = 10;
 
+    satellite.x  = satellitex0;
+    satellite.y  = satellitey0;
+    satellite.vx = satellitevx0;
+    satellite.vy = satellitevy0;
+    satellite.radius = satelliteRadius;
+    
+    setSatelliteAnimation();
      
-    for(var i = 0; i < numsatellites; i++)
-    {
-        var satellite = new Object();
-        var jupitar = new Object();
-        var satellitev0 = 2;
-
-        satellite.red = 221;
-        satellite.green = 222;
-        satellite.blue = 211;
-        satellite.x = 0;
-        satellite.y = 475;
-        satellite.vx = satellitev0;
-        satellite.vy = -satellitev0;
-        satellite.radius = 10;
-        satellite.mass = satellite.radius;
-        satellites[i] = satellite;
-    }
-     
-    setsatelliteAnimation();
-     
-    function setsatelliteAnimation()
+    function setSatelliteAnimation()
     {
         animation();
-        requestAnimationFrame(setsatelliteAnimation);
+        requestAnimationFrame(setSatelliteAnimation);
     }
      
     function animation()
@@ -59,37 +55,24 @@ function init()
         ctx.arc(250, 250, 20, 0, Math.PI*2, true);
         ctx.fillStyle = "rgb(80,32,32)";
         ctx.fill();
-
-        for(var i = 0; i < numsatellites; i++)
-        {
-            ctx.strokeStyle ="rgb(" + satellites[i].red + "," + satellites[i].green + "," + satellites[i].blue + ")";
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.arc(satellites[i].x, satellites[i].y, satellites[i].radius, 0, Math.PI * 2, true);
-            ctx.fillStyle = "rgb(" + satellites[i].red + "," + satellites[i].green + "," + satellites[i].blue + ")";
-            ctx.fill();
-            ctx.stroke();
-            move(satellites[i]);
-            var satelliteA = satellites[i];
-            for(var j = i + 1; j < numsatellites; j++)
-            {
-                var satelliteB = satellites[j];
-            }
-        }
+        ctx.beginPath();
+        ctx.arc(satellite.x, satellite.y, satellite.radius, 0, Math.PI*2, true);
+        ctx.fillStyle = "rgb(222,222,222)";
+        ctx.fill();
+        ctx.stroke();
+        move(satellite);
     }
      
-    /*
-     * ボールの運動
-     */
+    // ボールの運動
     function move(satellite)
     {
         satellite.x += satellite.vx;
         satellite.y += satellite.vy;
         //checkWall(satellite);
-        checkGravity(satellite);
+        addGravity(satellite);
     }
 
-    function checkGravity(satellite)
+    function addGravity(satellite)
     {
         var dist, distx, disty;
         var a,    ax,    ay,arate;
